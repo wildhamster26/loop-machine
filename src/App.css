@@ -29,12 +29,13 @@ body,
   display: flex;
   justify-content: space-around;
   flex-wrap: wrap;
-  max-width: 50vw;
+  padding: 32px;
 }
 
 .card {
   border: 1px solid black;
   padding: 8px;
+  margin-left: 8px;
   margin-bottom: 8px;
   min-width: 25%;
   min-height: 100px;
