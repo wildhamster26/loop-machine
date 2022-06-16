@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useCallback } from "react";
 import "./App.css";
 import { loops } from "./assets/index";
 import { AudioCard } from "./AudioCard/AudioCard";
@@ -7,7 +7,7 @@ function App() {
   const [itemsToPlay, setItemsToPlay] = useState<number[]>([]);
   const [queue, setQueue] = useState<number[]>([]);
 
-  const allItems = loops.map((_, i) => i);
+  const allItems = useCallback(() => loops.map((_, i) => i), []);
   return (
     <div className="App">
       <div className="controls">
