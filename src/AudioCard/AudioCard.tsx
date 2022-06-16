@@ -1,4 +1,5 @@
-import React, { useRef, useState, useEffect } from "react";
+import React from "react";
+import { useAudioCard } from "./hooks/useAudioCard";
 
 export const AudioCard: React.FC<Props> = ({
   id,
@@ -8,53 +9,27 @@ export const AudioCard: React.FC<Props> = ({
   queue,
   setQueue,
 }) => {
-  const [isPlaying, setIsPlaying] = useState(false);
-  const ref = useRef<HTMLAudioElement | null>(null);
-
-  const togglePlay = () => {
-    if (ref.current) {
-      if (itemsToPlay.length > 0 && !itemsToPlay.includes(id)) {
-        setQueue((prev) => [...prev, id]);
-        return;
-      } else {
-        if (isPlaying) {
-          const filtered = itemsToPlay.filter((item) => item !== id);
-          setItemsToPlay(filtered);
-          ref.current.currentTime = 0;
-        } else {
-          setItemsToPlay([id]);
-        }
-      }
-    }
-  };
-
-  useEffect(() => {
-    if (ref.current) {
-      if (itemsToPlay.includes(id)) {
-        ref.current.play();
-        setIsPlaying(true);
-      } else {
-        ref.current.pause();
-        ref.current.currentTime = 0;
-        setIsPlaying(false);
-      }
-    }
-  }, [itemsToPlay, id]);
+  const { data, handle } = useAudioCard(
+    id,
+    itemsToPlay,
+    setItemsToPlay,
+    setQueue
+  );
 
   return (
     <div className="card">
       <div style={{ display: "flex", justifyContent: "space-around" }}>
-        <button onClick={togglePlay} style={{ minWidth: "100px" }}>
-          {isPlaying ? "Pause" : "Play"}
+        <button onClick={handle.togglePlay} style={{ minWidth: "100px" }}>
+          {data.isPlaying ? "Pause" : "Play"}
         </button>
       </div>
       <audio
-        ref={ref}
+        ref={data.ref}
         src={src}
         onEnded={() => {
           setItemsToPlay((prev) => [...prev, ...queue]);
           setQueue([]);
-          setIsPlaying(true);
+          handle.setIsPlaying(true);
         }}
       />
     </div>
