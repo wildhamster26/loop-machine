@@ -1,11 +1,16 @@
 import React, { useRef, useState, useEffect } from "react";
 
-export const AudioCard: React.FC<Props> = ({ src, playAll }) => {
+export const AudioCard: React.FC<Props> = ({ id, src, playAll }) => {
   const [isPlaying, setIsPlaying] = useState(false);
   const ref = useRef<HTMLAudioElement | null>(null);
 
   const togglePlay = () => {
     if (ref.current) {
+      // if (!standby?.includes(id)) {
+      //   console.log("adding to standby list:", id);
+      //   setStandby((prev) => [...prev, id]);
+      //   return;
+      // }
       if (isPlaying) {
         ref.current.pause();
       } else {
@@ -17,15 +22,15 @@ export const AudioCard: React.FC<Props> = ({ src, playAll }) => {
 
   useEffect(() => {
     if (ref.current) {
-      if (playAll === true) {
+      if (playAll.includes(id)) {
         ref.current.play();
         setIsPlaying(true);
-      } else if (playAll === false) {
+      } else {
         ref.current.pause();
         setIsPlaying(false);
       }
     }
-  }, [playAll]);
+  }, [playAll, id]);
 
   return (
     <div className="card">
@@ -34,12 +39,21 @@ export const AudioCard: React.FC<Props> = ({ src, playAll }) => {
           {isPlaying ? "Pause" : "Play"}
         </button>
       </div>
-      <audio ref={ref} src={src} loop={true} />
+      <audio
+        ref={ref}
+        src={src}
+        // loop={true}
+        onEnded={() => {
+          setIsPlaying(true);
+          ref.current?.play();
+        }}
+      />
     </div>
   );
 };
 
 interface Props {
+  id: number;
   src: any;
-  playAll: boolean;
+  playAll: number[];
 }
