@@ -21,10 +21,6 @@ body,
   margin-bottom: 16px;
 }
 
-.play-button {
-  margin-right: 16px;
-}
-
 .cards {
   display: flex;
   justify-content: space-around;

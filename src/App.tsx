@@ -11,7 +11,6 @@ function App() {
     <div className="App">
       <div className="controls">
         <button
-          className="play-button"
           onClick={() =>
             itemsToPlay.length > 0
               ? setItemsToPlay([])
