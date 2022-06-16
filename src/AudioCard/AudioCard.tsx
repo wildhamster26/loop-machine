@@ -1,6 +1,6 @@
-import React, { useRef, useState } from "react";
+import React, { useRef, useState, useEffect } from "react";
 
-export const AudioCard: React.FC<Props> = ({ src }) => {
+export const AudioCard: React.FC<Props> = ({ src, playAll }) => {
   const [isPlaying, setIsPlaying] = useState(false);
   const ref = useRef<HTMLAudioElement | null>(null);
 
@@ -14,6 +14,18 @@ export const AudioCard: React.FC<Props> = ({ src }) => {
       setIsPlaying(!isPlaying);
     }
   };
+
+  useEffect(() => {
+    if (ref.current) {
+      if (playAll === true) {
+        ref.current.play();
+        setIsPlaying(true);
+      } else if (playAll === false) {
+        ref.current.pause();
+        setIsPlaying(false);
+      }
+    }
+  }, [playAll]);
 
   return (
     <div className="card">
@@ -29,4 +41,5 @@ export const AudioCard: React.FC<Props> = ({ src }) => {
 
 interface Props {
   src: any;
+  playAll: boolean;
 }

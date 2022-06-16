@@ -1,19 +1,21 @@
-import React from "react";
+import React, { useState } from "react";
 import "./App.css";
 import { loops } from "./assets/index";
 import { AudioCard } from "./AudioCard/AudioCard";
 function App() {
+  //! continue from here. Add the Queue functionality
+
+  const [playAll, setPlayAll] = useState<boolean>(false);
   return (
     <div className="App">
-      {/* <div className="controls">
-        <button className="play-button" onClick={playAll}>
-          Play all
+      <div className="controls">
+        <button className="play-button" onClick={() => setPlayAll(!playAll)}>
+          {`${playAll ? "Pause all" : "Play all"}`}
         </button>
-        <button onClick={pauseAll}>Stop all</button>
-      </div> */}
+      </div>
       <div className="cards">
         {loops.map((loop, i) => (
-          <AudioCard src={loop} key={i} />
+          <AudioCard src={loop} key={i} playAll={playAll} />
         ))}
       </div>
     </div>
