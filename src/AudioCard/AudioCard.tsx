@@ -1,28 +1,35 @@
 import React, { useRef, useState, useEffect } from "react";
 
-export const AudioCard: React.FC<Props> = ({ id, src, playAll }) => {
+export const AudioCard: React.FC<Props> = ({
+  id,
+  src,
+  itemsToPlay,
+  setItemsToPlay,
+  queue,
+  setQueue,
+}) => {
   const [isPlaying, setIsPlaying] = useState(false);
   const ref = useRef<HTMLAudioElement | null>(null);
 
   const togglePlay = () => {
     if (ref.current) {
-      // if (!standby?.includes(id)) {
-      //   console.log("adding to standby list:", id);
-      //   setStandby((prev) => [...prev, id]);
-      //   return;
-      // }
-      if (isPlaying) {
-        ref.current.pause();
+      if (itemsToPlay.length > 0 && !itemsToPlay.includes(id)) {
+        setQueue((prev) => [...prev, id]);
+        return;
       } else {
-        ref.current.play();
+        if (isPlaying) {
+          const filtered = itemsToPlay.filter((item) => item !== id);
+          setItemsToPlay(filtered);
+        } else {
+          setItemsToPlay([id]);
+        }
       }
-      setIsPlaying(!isPlaying);
     }
   };
 
   useEffect(() => {
     if (ref.current) {
-      if (playAll.includes(id)) {
+      if (itemsToPlay.includes(id)) {
         ref.current.play();
         setIsPlaying(true);
       } else {
@@ -30,7 +37,7 @@ export const AudioCard: React.FC<Props> = ({ id, src, playAll }) => {
         setIsPlaying(false);
       }
     }
-  }, [playAll, id]);
+  }, [itemsToPlay, id]);
 
   return (
     <div className="card">
@@ -42,10 +49,10 @@ export const AudioCard: React.FC<Props> = ({ id, src, playAll }) => {
       <audio
         ref={ref}
         src={src}
-        // loop={true}
         onEnded={() => {
+          setItemsToPlay((prev) => [...prev, ...queue]);
+          setQueue([]);
           setIsPlaying(true);
-          ref.current?.play();
         }}
       />
     </div>
@@ -55,5 +62,8 @@ export const AudioCard: React.FC<Props> = ({ id, src, playAll }) => {
 interface Props {
   id: number;
   src: any;
-  playAll: number[];
+  itemsToPlay: number[];
+  setItemsToPlay: React.Dispatch<React.SetStateAction<number[]>>;
+  queue: number[];
+  setQueue: React.Dispatch<React.SetStateAction<number[]>>;
 }

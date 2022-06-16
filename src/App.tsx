@@ -3,7 +3,9 @@ import "./App.css";
 import { loops } from "./assets/index";
 import { AudioCard } from "./AudioCard/AudioCard";
 function App() {
-  const [playAll, setPlayAll] = useState<number[]>([]);
+  const [itemsToPlay, setItemsToPlay] = useState<number[]>([]);
+  const [queue, setQueue] = useState<number[]>([]);
+
   const allItems = loops.map((_, i) => i);
   return (
     <div className="App">
@@ -11,15 +13,25 @@ function App() {
         <button
           className="play-button"
           onClick={() =>
-            playAll.length > 0 ? setPlayAll([]) : setPlayAll(allItems)
+            itemsToPlay.length > 0
+              ? setItemsToPlay([])
+              : setItemsToPlay(allItems)
           }
         >
-          {`${playAll.length > 0 ? "Pause all" : "Play all"}`}
+          {`${itemsToPlay.length > 0 ? "Pause all" : "Play all"}`}
         </button>
       </div>
       <div className="cards">
         {loops.map((loop, i) => (
-          <AudioCard id={i} src={loop} key={i} playAll={playAll} />
+          <AudioCard
+            id={i}
+            src={loop}
+            key={i}
+            itemsToPlay={itemsToPlay}
+            setItemsToPlay={setItemsToPlay}
+            queue={queue}
+            setQueue={setQueue}
+          />
         ))}
       </div>
     </div>
