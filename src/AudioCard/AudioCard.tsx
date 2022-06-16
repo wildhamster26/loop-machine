@@ -1,5 +1,6 @@
 import React from "react";
 import { useAudioCard } from "./hooks/useAudioCard";
+import "./AudioCard.css";
 
 export const AudioCard: React.FC<Props> = ({
   id,
@@ -18,11 +19,9 @@ export const AudioCard: React.FC<Props> = ({
 
   return (
     <div className="card">
-      <div style={{ display: "flex", justifyContent: "space-around" }}>
-        <button onClick={handle.togglePlay} style={{ minWidth: "100px" }}>
-          {data.isPlaying ? "Pause" : "Play"}
-        </button>
-      </div>
+      <button onClick={handle.togglePlay}>
+        {data.isPlaying ? "Pause" : "Play"}
+      </button>
       <audio
         ref={data.ref}
         src={src}

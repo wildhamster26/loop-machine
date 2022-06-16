@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import "./App.css";
 import { loops } from "./assets/index";
 import { AudioCard } from "./AudioCard/AudioCard";
+
 function App() {
   const [itemsToPlay, setItemsToPlay] = useState<number[]>([]);
   const [queue, setQueue] = useState<number[]>([]);

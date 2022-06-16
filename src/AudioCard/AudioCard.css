@@ -12,3 +12,7 @@
   margin-left: 8px;
   margin-bottom: 8px;
 }
+
+.card button {
+  width: 100px;
+}
