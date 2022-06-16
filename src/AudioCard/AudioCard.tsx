@@ -20,6 +20,7 @@ export const AudioCard: React.FC<Props> = ({
         if (isPlaying) {
           const filtered = itemsToPlay.filter((item) => item !== id);
           setItemsToPlay(filtered);
+          ref.current.currentTime = 0;
         } else {
           setItemsToPlay([id]);
         }
@@ -34,6 +35,7 @@ export const AudioCard: React.FC<Props> = ({
         setIsPlaying(true);
       } else {
         ref.current.pause();
+        ref.current.currentTime = 0;
         setIsPlaying(false);
       }
     }
